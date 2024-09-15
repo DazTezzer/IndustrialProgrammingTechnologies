@@ -1,0 +1,18 @@
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    z-index: 1000;
+  }
+  
+  .header nav a {
+    text-decoration: none;
+    color: black;
+  }
