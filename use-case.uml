@@ -1,0 +1,80 @@
+@startuml
+skinparam linetype ortho
+together {
+actor "Неавторизованный пользователь" as Guest
+actor "Авторизованный пользователь" as Customer
+}
+actor "Администратор" as Admin
+
+rectangle "Интернет магазин одежды" {
+    rectangle "Пользовательские операции" {
+        (Регистрация) as Registration
+        (Авторизация) as Login
+        (Управление аккаунтом) as ManageAccount
+    }
+
+    rectangle "Управление товарами" {
+        (Просмотр товаров) as ViewProducts
+        (Просмотр деталей товара) as ViewProductDetails
+        (Фильтрация товаров по категориям) as FilterProducts
+        (Просмотр отзывов о товаре) as ViewReviews
+        (Добавление товара в корзину) as AddToCart
+        (Добавление товара в избранное) as AddToFavorites
+        (Удаление товара из избранного) as RemoveFromFavorites
+    }
+    
+    rectangle "Корзина и заказ" {
+        (Просмотр корзины) as ViewCart
+        (Оформление заказа) as CheckoutOrder
+        (Оплата заказа) as PayOrder
+        (Просмотр заказов) as ViewOrders
+        (Отмена заказа) as CancelOrder
+    }
+        
+    rectangle "Отзывы" {
+        (Оставить отзыв о товаре) as LeaveReview
+        (Редактирование или удаление отзыва) as EditOrDeleteReview
+    }
+
+    rectangle "Администрирование" {
+        (Управление товарами) as ManageProducts
+        (Добавление нового товара) as AddProduct
+        (Обновление информации о товаре) as UpdateProduct
+        (Удаление товара) as DeleteProduct
+        (Управление категориями товаров) as ManageCategories
+        (Управление заказами) as ManageOrders
+    }
+}
+
+' Основные прецеденты с зависимостями
+Guest --> Registration
+Guest --> ViewProducts
+
+Customer --> Login
+Customer --> ViewProducts
+Customer --> CheckoutOrder
+Customer --> ViewOrders
+Customer --> LeaveReview
+
+Admin --> ManageProducts
+Admin --> ManageCategories
+Admin --> ManageOrders
+
+' Расширяющие прецеденты
+ViewProducts .up.> ViewProductDetails : <<extend>>
+ViewProducts .up.> FilterProducts : <<extend>>
+ViewProducts .up.> AddToCart : <<extend>>
+AddToCart .up.> ViewCart : <<extend>>
+ViewProducts .up.> AddToFavorites : <<extend>>
+AddToFavorites .up.> RemoveFromFavorites : <<extend>>
+ManageProducts .up.> AddProduct : <<extend>>
+ManageProducts .up.> UpdateProduct : <<extend>>
+ManageProducts .up.> DeleteProduct : <<extend>>
+Registration .up.> ManageAccount : <<extend>>
+Registration .up.> ViewReviews : <<extend>>
+CheckoutOrder .up.> AddToCart : <<include>> 
+CheckoutOrder .up.> PayOrder : <<include>>
+ViewOrders .up.> CancelOrder : <<extend>>
+LeaveReview .up.> EditOrDeleteReview : <<extend>>
+
+@enduml
