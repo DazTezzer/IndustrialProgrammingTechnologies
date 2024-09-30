@@ -17,26 +17,31 @@
 ## Endpoints
 Эндпоинты - это точки входа для клиентов, определяющие, какие HTTP-методы могут использоваться для взаимодействия с системой. Каждый эндпоинт будет обрабатывать соответствующий тип запросов:
 
-Примеры:
+CategoryEndpoint:  
 
-GET /categories: Метод вызывает getAllCategories() для получения списка всех категорий.
+GET /categories: Метод вызывает getAllCategories() для получения списка всех категорий.  
+
 ProductsEndpoint:
 
-GET /products: Метод для получения списка продуктов по заданной категории (getProductsByCategory).
-GET /products/{id}: Метод для получения деталей конкретного продукта по его идентификатору (getProductById).
-GET /products/popular: Метод для получения популярных продуктов (getPopularProducts).
-CartEndpoint:
+GET /products: Метод для получения списка продуктов по заданной категории (getProductsByCategory).  
+GET /products/{id}: Метод для получения деталей конкретного продукта по его идентификатору (getProductById).  
+GET /products/popular: Метод для получения популярных продуктов (getPopularProducts).  
 
-POST /cart: Добавляет товары в корзину, вызывая метод addToCart с данными из запроса.
-FavoriteEndpoint:
+CartEndpoint:  
 
-POST /favorite: Позволяет пользователям добавлять товары в избранное через метод addToFavorite.
-AccountEndpoint:
+POST /cart: Добавляет товары в корзину, вызывая метод addToCart с данными из запроса.  
 
-GET /account: Возвращает информацию о пользователе через метод getUserAccount.
-OrderEndpoint:
+FavoriteEndpoint:  
 
-POST /order: Позволяет пользователям размещать заказы с помощью метода placeOrder.
+POST /favorite: Позволяет пользователям добавлять товары в избранное через метод addToFavorite.  
+
+AccountEndpoint:  
+
+GET /account: Возвращает информацию о пользователе через метод getUserAccount.  
+
+OrderEndpoint:  
+
+POST /order: Позволяет пользователям размещать заказы с помощью метода placeOrder.  
 ## Services
 Слой сервисов содержит интерфейсы для бизнес-логики, которая реализуется в системе. Каждый интерфейс соответствует аспекту функциональности:
 
