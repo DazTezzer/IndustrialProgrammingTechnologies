@@ -1,0 +1,196 @@
+@startuml
+skinparam linetype ortho
+package "Endpoints" {
+    class CategoryEndpoint {
+        +List<CategoryResponse> getAllCategories()
+    }
+
+    class ProductsEndpoint {
+        +List<ProductResponse> getProductsByCategory(name: String)
+        +ProductDetailResponse getProductById(productId: Long)
+        +List<ProductResponse> getPopularProducts()
+    }
+
+    class CartEndpoint {
+        +void addToCart(cartRequest: CartRequest)
+    }
+
+    class FavoriteEndpoint {
+        +void addToFavorite(favoriteRequest: FavoriteRequest)
+    }
+
+    class AccountEndpoint {
+        +UserAccountResponse getUserAccount(clientId: Long)
+    }
+
+    class OrderEndpoint {
+        +OrderResponse placeOrder(orderRequest: OrderRequest)
+    }
+}
+
+package "Services" {
+    interface CategoryService {
+        +List<CategoryResponse> getAllCategories()
+    }
+
+    interface ProductService {
+        +List<ProductResponse> getPopularProducts()
+        +List<ProductResponse> getProductsByCategory(name: String)
+        +ProductDetailResponse getProductById(productId: Long)
+    }
+
+    interface CartService {
+        +void addToCart(cartRequest: CartRequest)
+        +void addToFavorite(favoriteRequest: FavoriteRequest)
+    }
+
+    interface UserAccountService {
+        +UserAccountResponse getUserAccount(clientId: Long)
+    }
+
+    interface OrderService {
+        +OrderResponse placeOrder(orderRequest: OrderRequest)
+    }
+}
+
+package "Service Implementation" {
+    class CategoryServiceImpl {
+        +List<CategoryResponse> getAllCategories()
+    }
+
+    class ProductServiceImpl {
+        +List<ProductResponse> getPopularProducts()
+        +List<ProductResponse> getProductsByCategory(name: String)
+        +ProductDetailResponse getProductById(productId: Long)
+    }
+
+    class CartServiceImpl {
+        +void addToCart(cartRequest: CartRequest)
+        +void addToFavorite(favoriteRequest: FavoriteRequest)
+    }
+
+    class UserAccountServiceImpl {
+        +UserAccountResponse getUserAccount(clientId: Long)
+    }
+
+    class OrderServiceImpl {
+        +OrderResponse placeOrder(orderRequest: OrderRequest)
+    }
+}
+
+package "Mappers" {
+    class CategoryMapper
+    class ProductMapper
+    class CartMapper
+    class UserAccountMapper
+    class OrderMapper
+}
+
+package "Repositories" {
+    interface CategoryRepository {
+        +List<Category> findAll()
+    }
+
+    interface ProductRepository {
+        +List<Product> findPopularProducts()
+        +List<Product> findByCategory(name: String)
+        +Product findById(productId: Long)
+    }
+
+    interface CartRepository {
+        +void save(Cart cart)
+    }
+
+    interface UserAccountRepository {
+        +UserAccount findByClientId(clientId: Long)
+    }
+
+    interface OrderRepository {
+        +void save(Order order)
+    }
+}
+
+package "Requests" {
+    class CartRequest {
+        +Long clientId
+        +Long productId
+        +Integer size
+    }
+
+    class FavoriteRequest {
+        +Long clientId
+        +Long productId
+        +Integer size
+    }
+
+    class OrderRequest {
+        +Long clientId
+        +List<OrderItem> items
+    }
+}
+
+package "Responses" {
+    class CategoryResponse {
+        +String name
+    }
+
+    class ProductResponse {
+        +Long productId
+        +String name
+        +String imageUrl
+        +String price
+        +String descriptionInfo
+    }
+
+    class ProductDetailResponse {
+        +Long productId
+        +String name
+        +String imageUrl
+        +String price
+        +DetailInfo description
+    }
+
+    class UserAccountResponse {
+        +Long clientId
+        +List<ProductResponse> favoriteProducts
+        +List<ProductResponse> cartProducts
+    }
+
+    class OrderResponse {
+        +Long orderId
+        +String status
+    }
+}
+
+class DetailInfo {
+    +List<String> size
+    +String color
+    +List<Material> material
+    +String gender
+}
+
+class Material {
+    +String type
+    +String percentage
+}
+
+CategoryEndpoint ..|> CategoryService
+ProductsEndpoint ..|> ProductService
+CartEndpoint ..|> CartService
+FavoriteEndpoint ..|> CartService
+AccountEndpoint ..|> UserAccountService
+OrderEndpoint ..|> OrderService
+
+CategoryServiceImpl ..|> CategoryService
+ProductServiceImpl ..|> ProductService
+CartServiceImpl ..|> CartService
+UserAccountServiceImpl ..|> UserAccountService
+OrderServiceImpl ..|> OrderService
+
+CategoryService --> CategoryRepository
+ProductService --> ProductRepository
+CartService --> CartRepository
+UserAccountService --> UserAccountRepository
+OrderService --> OrderRepository
+
+@enduml
